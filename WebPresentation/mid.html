@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="page.css">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <audio width="1" height="1">
+        <source src="mid.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="page">
+        <div class="center">
+            <p><span class="bw">17<sup>th</sup> 社長 葉俊廷</span></p>
+            <p><span class="big">社長 課</span></p>
+            <p><span class=""><span class="bb">說明文字</span> 這是說明文字喔</span></p>
+            <p class="right"><span id='time' class="small"></span></p>
+        </div>
+    </div>
+
+</body>
+<script src="page.js"></script>
+<script>
+    var leave = false;
+    var audio = document.querySelector('audio');
+    var timeSpan = document.querySelector('#time');
+    var color2 = document.querySelectorAll('.color2');
+    audio.play();
+    audio.volume = 0;
+    function update() {
+        var beat = audio.currentTime / 0.47 / 1;
+
+        var id = Math.floor(beat) % 4;
+        /*
+        document.body.style.backgroundColor =
+            ['white', 'white', 'black', 'black'][id];*/
+        document.body.style.color =
+            ['#2196F3', '#E91E63', '#E91E63', '#2196F3'][id];
+
+
+        var time = new Date();
+        timeSpan.textContent = time.toLocaleDateString() + ' | ' + time.toLocaleTimeString();
+
+        document.body.style.opacity = audio.volume;
+        if (leave) {
+            audio.volume *= 0.9;
+        } else {
+            audio.volume += (1 - audio.volume) * 0.05;
+        }
+
+        requestAnimationFrame(update);
+    }
+
+    update();
+
+    addEventListener('keypress', function (e) {
+        if (e.which != 32) return;
+        leave = true;
+        setTimeout(function () {
+            location.href = 'open.html';
+        }, 1000)
+    });
+
+</script>
+
+</html>

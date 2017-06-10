@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="page.css">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <audio width="1" height="1">
+        <source src="open.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="page">
+        <div class="center">
+            <p><span class="bw">大安高工電腦研究社 17<sup>th</sup></span></p>
+            <p><span class="big">幹部訓練</span></p>
+            <p><span>DAY 1</span></p>
+            <p class="right"><span id='time' class="small"></span></p>
+        </div>
+    </div>
+
+</body>
+<script src="page.js"></script>
+<script>
+    var leave = false;
+    var audio = document.querySelector('audio');
+    var timeSpan = document.querySelector('#time');
+    var big = document.querySelector('.big');
+    audio.play();
+    audio.volume = 0;
+    function update() {
+        var beat = audio.currentTime / 0.47 / 1;
+
+        var id = Math.floor(beat) % 4;
+        document.body.style.backgroundColor = 'black';
+        /*
+                document.body.style.backgroundColor =
+                    ['white', 'white', 'black', 'black'][id];*/
+        document.body.style.color = 'white';
+        big.style.color =
+            ['white', '#E91E63', '#2196F3', '#9C27B0'][id];
+
+
+        var time = new Date();
+        timeSpan.textContent = time.toLocaleDateString() + ' | ' + time.toLocaleTimeString();
+
+        document.body.style.opacity = audio.volume;
+        if (leave) {
+            audio.volume *= 0.9;
+        } else {
+            audio.volume += (1 - audio.volume) * 0.02;
+        }
+        requestAnimationFrame(update);
+    }
+
+    update();
+
+
+    addEventListener('keypress', function (e) {
+        if(e.which!=32) return;
+        leave = true;
+        setTimeout(function () {
+            location.href = 'mid.html';
+        }, 1000)
+    });
+
+</script>
+
+</html>
